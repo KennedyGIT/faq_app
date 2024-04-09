@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\faq_app.props" />
+</Project>

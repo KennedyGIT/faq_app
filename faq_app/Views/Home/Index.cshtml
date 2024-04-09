@@ -1,0 +1,58 @@
+﻿@model List<faq_app.Models.Faq>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Bootstrap List Group for filtering by category -->
+            <div class="list-group mt-4">
+                <a href="@Url.Action("Index", "Home")" class="list-group-item list-group-item-action @(ViewBag.CategoryFilter == null || ViewBag.CategoryFilter == "all" ? "active" : "")" data-filter="all">All Categories</a>
+                <a href="@Url.Action("IndexByCategory", "Home", new { categoryName = "general", topicName = ViewBag.TopicFilter })" class="list-group-item list-group-item-action @(ViewBag.CategoryFilter == "general" ? "active" : "")" data-filter="general">General</a>
+                <a href="@Url.Action("IndexByCategory", "Home", new { categoryName = "history", topicName = ViewBag.TopicFilter })" class="list-group-item list-group-item-action @(ViewBag.CategoryFilter == "history" ? "active" : "")" data-filter="history">History</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <!-- Bootstrap Navbar for filtering by topic -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item @(ViewBag.TopicFilter == null || ViewBag.TopicFilter == "all" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link" data-filter="all">All Topics</a>
+                        </li>
+                        <li class="nav-item @(ViewBag.TopicFilter == "C#" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home", new { categoryName = ViewBag.CategoryFilter, topicName = "C#" })" class="nav-link" data-filter="csharp">C#</a>
+                        </li>
+                        <li class="nav-item @(ViewBag.TopicFilter == "JavaScript" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home", new { categoryName = ViewBag.CategoryFilter, topicName = "JavaScript" })" class="nav-link" data-filter="javascript">JavaScript</a>
+                        </li>
+                        <li class="nav-item @(ViewBag.TopicFilter == "Bootstrap" ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home", new { categoryName = ViewBag.CategoryFilter, topicName = "Bootstrap" })" class="nav-link" data-filter="bootstrap">Bootstrap</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Render FAQ content dynamically -->
+            <div class="container mt-4">
+                @foreach (var faq in Model)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@faq.Question</h5>
+                            <p class="card-text"><strong>Answer:</strong> @faq.Answer</p>
+                            <p class="card-text"><strong>Topic:</strong> @faq.Topic.TopicName</p>
+                            <p class="card-text"><strong>Category:</strong> @faq.Category.CategoryName</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
